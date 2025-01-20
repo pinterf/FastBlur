@@ -92,7 +92,7 @@ void* TP_Thread(void* param) {
 void Threadpool::Wait() {
 	if (!queue.size()) {
 		int i;
-		for (i = 0; i < 12; ++i) {
+		for (i = 0; i < n_threads; ++i) {
 			if (!threads[i].free) break;
 		}
 		if (i == n_threads) return;
