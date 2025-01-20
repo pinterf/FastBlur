@@ -29,6 +29,9 @@
     <ClInclude Include="pyramidavs.h" />
     <ClInclude Include="threadpool.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="fastblur.rc" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
