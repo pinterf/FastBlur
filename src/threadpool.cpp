@@ -90,26 +90,16 @@ void* TP_Thread(void* param) {
 * Wait
 **********************************************************************/
 void Threadpool::Wait() {
-	if (!queue.size()) {
-		int i;
-		for (i = 0; i < n_threads; ++i) {
-			if (!threads[i].free) break;
-		}
-		if (i == n_threads) return;
-	}
+	std::unique_lock<std::mutex> rlock(return_mutex);
+	return_cond.wait(rlock, [this] {
+		std::lock_guard<std::mutex> mlock(main_mutex);  // Added lock for queue access
+		if (!queue.empty()) return false;
+		for (int i = 0; i < n_threads; ++i) {
+			if (!threads[i].free) return false;
 
-	{
-		std::unique_lock<std::mutex> rlock(return_mutex);
-		return_cond.wait(rlock, [=]{
-			if (queue.size()) return false;
-			for (int i = 0; i < n_threads; ++i) {
-				if (!threads[i].free) {
-					return false;
-				}
-			}
-			return true;
+		}
+		return true;
 		});
-	}
 }
 
 /**********************************************************************
