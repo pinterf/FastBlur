@@ -1,4 +1,5 @@
-#include "pyramidavs.cpp"
+#include "pyramidavs.h"
+#include "avisynth.h"
 #include <math.h>
 
 class FastBlur : public GenericVideoFilter {

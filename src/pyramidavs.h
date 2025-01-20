@@ -1,4 +1,6 @@
 #pragma once
+
+#include "avisynth.h"
 #include "Pyramid.h"
 
 struct PyPlaneStruct {
