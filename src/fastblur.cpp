@@ -16,6 +16,8 @@ private:
 	float sigma_to_box_radius(double s, int iterations);
 //	PVideoFrame test;
 
+	bool has_at_least_v8; // v8 interface frameprop copy support
+
 public:
 	FastBlur(PClip _child, double _xblur, double _yblur, int iterations, bool _dither, bool _gamma, float threads, IScriptEnvironment* env);
 	~FastBlur();
@@ -30,6 +32,10 @@ float FastBlur::sigma_to_box_radius(double s, int iterations) {
 }
 
 FastBlur::FastBlur(PClip _child, double _blur_x, double _blur_y, int _iterations, bool _dither, bool _gamma, float threads, IScriptEnvironment* env) : GenericVideoFilter(_child), iterations(_iterations), dither(_dither), gamma(_gamma) {
+	has_at_least_v8 = true;
+	try { env->CheckVersion(8); }
+	catch (const AvisynthError&) { has_at_least_v8 = false; }
+
 	if (threads < 0) {
 		Threadpool::GetInstance((std::min)((int)std::thread::hardware_concurrency(), (std::max)(2, (int)floor(std::thread::hardware_concurrency() * 0.5 - 1))));
 	} else if (threads == 0) {
@@ -81,8 +87,8 @@ PVideoFrame __stdcall FastBlur::GetFrame(int n, IScriptEnvironment* env) {
 //	if (test) env->ThrowError("set");
 //	else test = NULL;
 
-	PVideoFrame dst = env->NewVideoFrame(vi);
 	PVideoFrame src = child->GetFrame(n, env);
+	PVideoFrame dst = has_at_least_v8 ? env->NewVideoFrameP(vi, &src) : env->NewVideoFrame(vi); // frame property support
 
 	double x_time = 0;
 	double y_time = 0;
