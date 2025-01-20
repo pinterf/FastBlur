@@ -22,6 +22,10 @@ public:
 	FastBlur(PClip _child, double _xblur, double _yblur, int iterations, bool _dither, bool _gamma, float threads, IScriptEnvironment* env);
 	~FastBlur();
 	PVideoFrame __stdcall GetFrame(int n, IScriptEnvironment* env);
+	int __stdcall SetCacheHints(int cachehints, int frame_range)
+	{
+		return cachehints == CACHE_GET_MTMODE ? MT_MULTI_INSTANCE : 0;
+	}
 };
 
 float FastBlur::sigma_to_box_radius(double s, int iterations) {
