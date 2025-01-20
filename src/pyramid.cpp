@@ -1024,7 +1024,9 @@ void Pyramid::MultiplyAddClamp(float add, float mul, int level) {
 void Pyramid::Multiply(int level, float mul) {
 	if (mul == 1) return;
 	if (mul == 0) {
-		ZeroMemory(levels[level].data, levels[level].height*levels[level].pitch*sizeof(float));
+		std::fill(levels[level].data,
+			levels[level].data + (levels[level].height * levels[level].pitch),
+			0.0f);
 		return;
 	}
 

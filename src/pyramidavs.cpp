@@ -23,7 +23,7 @@ PyramidAVS::PyramidAVS(VideoInfo vi, int _levels, bool _dither, VideoInfo* mask_
 // create a pyramid for chroma, having the same difference in the number of levels from the y_pyramid as would occur using default number of levels for this image
 // *** currently not true, as levels is fixed to 8
 			if (transpose) std::swap(w, h);
-			uv_pyramid = new Pyramid(w, h, max(1, y_pyramid->GetNLevels() - (Pyramid::DefaultNumLevels(vi.width, vi.height) - Pyramid::DefaultNumLevels(w, h))), y_pyramid);
+			uv_pyramid = new Pyramid(w, h, std::max(1, y_pyramid->GetNLevels() - (Pyramid::DefaultNumLevels(vi.width, vi.height) - Pyramid::DefaultNumLevels(w, h))), y_pyramid);
 		}
 	} else {
 		sub_w = 0;

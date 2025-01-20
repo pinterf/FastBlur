@@ -23,7 +23,7 @@ public:
 	PyramidAVS(VideoInfo vi, int _levels = 0, bool _dither = false, VideoInfo* mask_for_vi = NULL, bool transpose = false);
 	PyramidAVS(PClip _clip, int _levels = 0, bool _dither = false, VideoInfo* mask_for_vi = NULL, bool transpose = false) : PyramidAVS(_clip->GetVideoInfo(), _levels, _dither, mask_for_vi, transpose) {};
 	~PyramidAVS();
-	void Copy(int plane_n, byte* src_p, int src_pitch) { Copy(plane_n, src_p, src_pitch, true); };
+	void Copy(int plane_n, uint8_t* src_p, int src_pitch) { Copy(plane_n, src_p, src_pitch, true); };
 	void Copy(int plane_n, unsigned char* src_p, int src_pitch, bool gamma);
 //	void Out(int plane_n, byte* dst_p, int dst_pitch, bool gamma, bool clamp) { Out(plane_n, dst_p, dst_pitch, gamma, clamp, 0, NULL); };
 	void Out(int plane_n, void* dst_p, int dst_pitch, bool gamma, bool clamp, int level = 0);
