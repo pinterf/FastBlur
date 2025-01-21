@@ -1,7 +1,8 @@
 #include "pyramid.h"
 
 #ifdef PYR_DENOISE
-#define USE_SSE2
+#define USE_SSE4
+#define SSE_MATHFUN_WITH_CODE
 #include "sse_mathfun.h"
 #endif
 
